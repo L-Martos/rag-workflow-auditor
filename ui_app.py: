@@ -1,0 +1,39 @@
+import os
+from dotenv import load_dotenv
+import streamlit as st
+from openai import OpenAI
+
+load_dotenv()
+api_key = os.getenv("OPENAI_API_KEY")
+if not api_key:
+    st.error("OPENAI_API_KEY not set in .env")
+    st.stop()
+
+client = OpenAI(api_key=api_key)
+
+st.set_page_config(page_title="Workflow Auditor", layout="centered")
+st.title("Workflow Auditor (Beginner Edition)")
+
+step = st.text_area(
+    "Enter a workflow step",
+    height=150,
+    placeholder="e.g., Validate input; if valid, submit to API; handle errors; log result."
+)
+
+if st.button("Audit"):
+    if not step.strip():
+        st.warning("Please enter a step.")
+    else:
+        with st.spinner("Thinking..."):
+            resp = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role":"system","content":"You check if a workflow step is clear, logical, and actionable. Give 2-3 bullet suggestions."},
+                    {"role":"user","content":step.strip()}
+                ]
+            )
+            st.subheader("AI feedback")
+            st.write(resp.choices[0].message["content"])
+``
+streamlit run ui_app.py
+``
