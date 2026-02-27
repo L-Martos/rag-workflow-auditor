@@ -11,29 +11,49 @@ if not api_key:
 
 client = OpenAI(api_key=api_key)
 
-st.set_page_config(page_title="Workflow Auditor", layout="centered")
-st.title("Workflow Auditor (Beginner Edition)")
+st.set_page_config(page_title="Workflow Auditor", layout="wide")
+st.title("Workflow Auditor (Beginner → Compare to Policy)")
 
-step = st.text_area(
-    "Enter a workflow step",
-    height=150,
-    placeholder="e.g., Validate input; if valid, submit to API; handle errors; log result."
-)
+col1, col2 = st.columns(2)
+
+with col1:
+    step = st.text_area(
+        "Enter a workflow step",
+        height=220,
+        placeholder="e.g., Validate input; if valid, submit to API; handle errors; log result."
+    )
+
+with col2:
+    policy = st.text_area(
+        "Paste policy text (optional, but recommended)",
+        height=220,
+        placeholder="Paste any policy, SOP, or checklist text here."
+    )
 
 if st.button("Audit"):
     if not step.strip():
-        st.warning("Please enter a step.")
+        st.warning("Please enter a workflow step.")
     else:
-        with st.spinner("Thinking..."):
+        system_prompt = (
+            "You are a careful auditor. If policy text is provided, you MUST read it and compare the step against it. "
+            "Output 3 sections:\n"
+            "1) Verdict (Compliant / Issues Found)\n"
+            "2) Feedback (2-4 bullets)\n"
+            "3) Citations (quote exact lines from the policy you used, or say 'No policy provided')."
+        )
+
+        user_content = f"WORKFLOW STEP:\n{step.strip()}\n\n"
+        if policy.strip():
+            user_content += f"POLICY TEXT:\n{policy.strip()}\n"
+
+        with st.spinner("Auditing..."):
             resp = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
-                    {"role":"system","content":"You check if a workflow step is clear, logical, and actionable. Give 2-3 bullet suggestions."},
-                    {"role":"user","content":step.strip()}
-                ]
+                    {"role":"system", "content": system_prompt},
+                    {"role":"user", "content": user_content}
+                ],
+                temperature=0.2
             )
-            st.subheader("AI feedback")
+            st.subheader("Audit Result")
             st.write(resp.choices[0].message["content"])
-``
-streamlit run ui_app.py
-``
