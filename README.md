@@ -42,6 +42,7 @@ python -m streamlit run ui_app.py --server.address 0.0.0.0 --server.port 8501
 
 ## Screenshot
 
-![App Screenshot](Screenshot%202026-02-27.png)
+![App Screenshot](app_screenshot.png)
+
 
 
