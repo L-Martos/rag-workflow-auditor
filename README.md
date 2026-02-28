@@ -1,31 +1,41 @@
-# RAG Workflow Auditor (Beginner Edition)
+# Workflow Auditor (AI Workflow Review Tool)
 
-An AI-assisted workflow auditing tool that compares operational steps against policy text and generates structured compliance feedback.
+A simple AI-powered web app that compares a workflow step against policy text and produces structured audit feedback.
 
-This project demonstrates how large language models can support analysts by identifying potential gaps between real workflows and written procedures.
+This project demonstrates how AI can assist analysts by reviewing procedures, identifying potential compliance gaps, and generating clear explanations.
 
-## OpenAI API Requirement
+---
 
-The application interface runs immediately, but generating AI audit results requires an OpenAI API key with available credits.
+## What This Project Does
 
-If no credits are available, the app will display a message instead of results. This behavior is expected and handled gracefully.
+Input:
+- A workflow step
+- Optional policy or SOP text
 
-## Quick Start
+Output:
+- Compliance verdict
+- Feedback suggestions
+- Policy-based reasoning
 
-### 1) Set up Python
-- Python 3.10+ recommended
-- Create a virtual environment (optional but recommended)
+The goal is to show how AI can support real-world review and auditing workflows.
+
+---
+
+## Tech Stack
+
+- Python
+- Streamlit
+- OpenAI API
+- GitHub Codespaces
+
+---
+
+## Run in GitHub Codespaces (Easiest Way)
+
+1. Open this repository
+2. Click **Code → Codespaces → Create Codespace**
+3. In the terminal run:
 
 ```bash
-# Windows (PowerShell)
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-
-# Mac/Linux
-python3 -m venv .venv
-source .venv/bin/activate
-## Screenshot
-
-![Workflow Auditor UI](screenshot.png)
-
-
+pip install -r requirements.txt
+python -m streamlit run ui_app.py --server.address 0.0.0.0 --server.port 8501
