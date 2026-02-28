@@ -39,3 +39,8 @@ The goal is to show how AI can support real-world review and auditing workflows.
 ```bash
 pip install -r requirements.txt
 python -m streamlit run ui_app.py --server.address 0.0.0.0 --server.port 8501
+
+## Screenshot
+
+![App Screenshot](Screenshot%202026-02-27.png)
+
