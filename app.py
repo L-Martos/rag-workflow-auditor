@@ -1,27 +1,23 @@
 import os
-from openai import OpenAI
+import sys
+import subprocess
 
-# Load your API key (replace with your key or use environment variable)
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+def main():
+    """
+    Launch Streamlit app.
+    """
+    cmd = [
+        sys.executable,
+        "-m",
+        "streamlit",
+        "run",
+        "ui_app.py",
+        "--server.address",
+        "0.0.0.0",
+        "--server.port",
+        "8501",
+    ]
+    raise SystemExit(subprocess.call(cmd))
 
-print("Welcome to the simplest AI workflow auditor!")
-print("Type 'quit' to exit.\n")
-
-while True:
-    workflow = input("Enter a workflow step to check: ")
-
-    if workflow.lower() == "quit":
-        break
-
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are an assistant that checks if a workflow is clear and logical."},
-            {"role": "user", "content": workflow}
-        ]
-    )
-
-    print("\nAI Audit Result:")
-    print(response.choices[0].message["content"])
-    print("\n" + "-" * 50 + "\n")
-``
+if __name__ == "__main__":
+    main()
