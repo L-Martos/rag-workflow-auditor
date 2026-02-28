@@ -1,18 +1,17 @@
 import os
-from dotenv import load_dotenv
 import streamlit as st
 from openai import OpenAI
 
-load_dotenv()
+st.set_page_config(page_title="Workflow Auditor", layout="wide")
+st.title("Workflow Auditor (Beginner → Compare to Policy)")
+
+# --- API KEY (Codespaces Secret) ---
 api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
-    st.error("OPENAI_API_KEY not set in .env")
+    st.error("Missing OPENAI_API_KEY (Codespaces Secret). Add it in GitHub → Settings → Secrets and variables → Codespaces, then rebuild Codespace.")
     st.stop()
 
 client = OpenAI(api_key=api_key)
-
-st.set_page_config(page_title="Workflow Auditor", layout="wide")
-st.title("Workflow Auditor (Beginner → Compare to Policy)")
 
 col1, col2 = st.columns(2)
 
@@ -33,27 +32,35 @@ with col2:
 if st.button("Audit"):
     if not step.strip():
         st.warning("Please enter a workflow step.")
-    else:
-        system_prompt = (
-            "You are a careful auditor. If policy text is provided, you MUST read it and compare the step against it. "
-            "Output 3 sections:\n"
-            "1) Verdict (Compliant / Issues Found)\n"
-            "2) Feedback (2-4 bullets)\n"
-            "3) Citations (quote exact lines from the policy you used, or say 'No policy provided')."
-        )
+        st.stop()
 
-        user_content = f"WORKFLOW STEP:\n{step.strip()}\n\n"
-        if policy.strip():
-            user_content += f"POLICY TEXT:\n{policy.strip()}\n"
+    system_prompt = (
+        "You are a careful auditor. If policy text is provided, you MUST read it and compare the step against it.\n\n"
+        "Output EXACTLY 3 sections:\n"
+        "1) Verdict (Compliant / Issues Found)\n"
+        "2) Feedback (2-4 bullets)\n"
+        "3) Citations (quote exact lines from the policy you used, or say 'No policy provided')."
+    )
 
+    user_content = f"WORKFLOW STEP:\n{step.strip()}\n\n"
+    if policy.strip():
+        user_content += f"POLICY TEXT:\n{policy.strip()}\n"
+
+    try:
         with st.spinner("Auditing..."):
             resp = client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model="gpt-4o-mini",
                 messages=[
-                    {"role":"system", "content": system_prompt},
-                    {"role":"user", "content": user_content}
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_content},
                 ],
-                temperature=0.2
+                temperature=0.2,
             )
-            st.subheader("Audit Result")
-            st.write(resp.choices[0].message["content"])
+
+        st.subheader("Audit Result")
+        st.write(resp.choices[0].message.content)
+
+    except Exception:
+        # ONE clean message, no red traceback
+        st.error("The app is running, but the OpenAI API request failed (usually because the API account has no credits/quota).")
+        st.info("Fix later if you want live results: add OpenAI billing/credits or use a funded API key. The UI is still working.")
