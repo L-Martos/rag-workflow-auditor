@@ -2,7 +2,7 @@
 ![Streamlit](https://img.shields.io/badge/UI-Streamlit-red)
 ![AI](https://img.shields.io/badge/AI-OpenAI-green)
 
-# RAG Workflow Auditor (Beginner Edition)
+# AI Workflow Compliance Auditor
 
 A simple AI tool that reviews a workflow step and compares it against policy text to provide quick audit feedback.
 
