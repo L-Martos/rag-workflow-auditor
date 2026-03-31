@@ -42,3 +42,11 @@ This tool is designed for:
 
 ## Disclaimer
 Do not upload PHI unless approved by your organization. Use de-identified data whenever possible.
+
+## Screenshots
+
+### Upload Page
+![Upload](screenshots/upload.png)
+
+### Results Dashboard
+![Dashboard](screenshots/dashboard.png)
