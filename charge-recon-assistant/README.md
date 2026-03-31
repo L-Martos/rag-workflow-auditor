@@ -56,3 +56,46 @@ Do not upload PHI unless approved by your organization. Use de-identified data w
 
 ### Summary Metrics
 ![Summary](summary.png)
+
+# Charge Recon Assistant
+
+Live App:
+https://charge-recon-assistant.streamlit.app
+
+Charge Recon Assistant is a Streamlit web application designed to help hospital departments and Revenue Integrity teams perform charge reconciliation by comparing activity/reconciliation exports against patient charge exports to identify missing charges and other reconciliation issues.
+
+## What This Tool Does
+
+This tool compares:
+- Activity / Reconciliation exports
+- Patient Charge exports
+- Optional Mapping files
+
+It identifies:
+- Missing Charges
+- Charges Without Activity
+- Quantity Mismatch
+- Duplicate Charges
+- Implant / Supply Issues
+- Cost Center Mismatch
+- Late Charges
+- Mapping Issues
+- Provider Mismatch
+
+It then generates:
+- Exception dashboard
+- Exception tabs by type
+- Excel exception report
+
+  ## Use Case
+
+This tool can be used by:
+- Charge Nurses closing department charge entry
+- Department charge reconciliation teams
+- Revenue Integrity analysts
+- CDM teams
+- Revenue Cycle managers
+- Consultants
+- Small hospitals and clinics
+
+The goal is to automate charge reconciliation and reduce manual auditing time while identifying missing charges and reconciliation errors.
