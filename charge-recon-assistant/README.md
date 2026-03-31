@@ -43,10 +43,20 @@ This tool is designed for:
 ## Disclaimer
 Do not upload PHI unless approved by your organization. Use de-identified data whenever possible.
 
+# Charge Recon Assistant
+
+Charge Recon Assistant is a Streamlit application designed to help hospital departments and Revenue Integrity teams perform charge reconciliation by comparing activity/reconciliation exports against patient charge exports to identify missing charges and other reconciliation issues.
+
 ## Screenshots
 
-### Upload Page
-![Upload](screenshots/upload.png)
+### Upload Files
+![Upload](upload.png)
 
-### Results Dashboard
-![Dashboard](screenshots/dashboard.png)
+### Dashboard
+![Dashboard](dashboard.png)
+
+### Exception Tabs
+![Exceptions](exceptions.png)
+
+### Summary Metrics
+![Summary](summary.png)
